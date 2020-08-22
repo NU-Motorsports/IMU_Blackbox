@@ -1,7 +1,7 @@
 /* Original Code by DJ Walsh
  * NUBaja IMU Blackbox
- * V 0.0.3
- * 08/16/2020
+ * V 1.1.1
+ * 08/22/2020
  * 
  * A large amount of this code is inspired by the Sparkfun 9DoF Razor IMU sample firmware, availible here:
  * https://learn.sparkfun.com/tutorials/9dof-razor-imu-m0-hookup-guide?_ga=2.180723815.1742731065.1594684509-2129211768.1594259654
@@ -103,9 +103,13 @@ void loop() {
   float magY = imu.calcMag(imu.my); // magY is y-axis magnetic field in uT
   float magZ = imu.calcMag(imu.mz); // magZ is z-axis magnetic field in uT
 
+  int imuTime = imu.time;  //imuTime is the time in ms
+
   File dataFile = SD.open(String(i)+".txt", FILE_WRITE);
 
   //Write to SD
+  dataFile.print(imuTime);
+  dataFile.print(", ");
   dataFile.print(accelX);
   dataFile.print(", ");
   dataFile.print(accelY);
