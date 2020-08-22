@@ -1,6 +1,6 @@
 /* Original Code by DJ Walsh
  * NUBaja IMU Blackbox
- * V 0.0.2
+ * V 0.0.3
  * 08/16/2020
  * 
  * A large amount of this code is inspired by the Sparkfun 9DoF Razor IMU sample firmware, availible here:
@@ -17,6 +17,7 @@
 
 //Log Rates
 const int SERIAL_BAUD_RATE = 9600;
+int i=1;
 
 
 /***********************************PIN LOCATION GLOBALS***********************************/
@@ -71,7 +72,18 @@ void setup() {
   imu.setLPF(10);                     //188, 98, 42, 20, 10, 5 Hz
   imu.setSampleRate(10);              //4 thru 1000 Hz
   imu.setCompassSampleRate(10);       //1 thru 100 Hz
-  
+
+  //File directory finder
+
+  bool ex = true;
+  do{
+    if(SD.exists(String(i)+".txt")){
+      i++;
+    } else{
+      ex = false;
+    }
+  } while(ex==true);
+    
 }
 
 void loop() {
@@ -91,25 +103,29 @@ void loop() {
   float magY = imu.calcMag(imu.my); // magY is y-axis magnetic field in uT
   float magZ = imu.calcMag(imu.mz); // magZ is z-axis magnetic field in uT
 
+  File dataFile = SD.open(String(i)+".txt", FILE_WRITE);
 
-  //Write to serial
-  SerialUSB.print(accelX);
-  SerialUSB.print(", ");
-  SerialUSB.print(accelY);
-  SerialUSB.print(", ");
-  SerialUSB.print(accelZ);
-  SerialUSB.print(", ");
-  SerialUSB.print(gyroX);
-  SerialUSB.print(", ");
-  SerialUSB.print(gyroY);
-  SerialUSB.print(", ");
-  SerialUSB.print(gyroZ);
-  SerialUSB.print(", ");
-  SerialUSB.print(magX);
-  SerialUSB.print(", ");
-  SerialUSB.print(magY);
-  SerialUSB.print(", ");
-  SerialUSB.println(magZ);
+  //Write to SD
+  dataFile.print(accelX);
+  dataFile.print(", ");
+  dataFile.print(accelY);
+  dataFile.print(", ");
+  dataFile.print(accelZ);
+  dataFile.print(", ");
+  dataFile.print(gyroX);
+  dataFile.print(", ");
+  dataFile.print(gyroY);
+  dataFile.print(", ");
+  dataFile.print(gyroZ);
+  dataFile.print(", ");
+  dataFile.print(magX);
+  dataFile.print(", ");
+  dataFile.print(magY);
+  dataFile.print(", ");
+  dataFile.println(magZ);
+
+  dataFile.close();
+  
   
 }
 
