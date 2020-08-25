@@ -1,6 +1,6 @@
 /* Original Code by DJ Walsh
  * NUBaja IMU Blackbox
- * V 1.1.1
+ * V 1.1.2
  * 08/22/2020
  * 
  * A large amount of this code is inspired by the Sparkfun 9DoF Razor IMU sample firmware, availible here:
@@ -39,8 +39,6 @@ void setup() {
 
   while(!SerialUSB);
   SerialUSB.println("initializing SD card...");
-  
-  SD.begin(SD_PIN);
   
   if(!SD.begin(SD_PIN)){
     SerialUSB.println("initialization failed. things to check:");
