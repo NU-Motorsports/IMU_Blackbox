@@ -43,7 +43,7 @@ void setup() {
   SerialUSB.println("initializing SD card...");
   
   if(!SD.begin(SD_PIN)){
-    SerialUSB.println("initialization failed. things to check:");
+    SerialUSB.println("SD initialization failed. things to check:");
     SerialUSB.println("1. is a card inserted? Try removing and inserting again");
     SerialUSB.println("2. is the wiring correct?");
     SerialUSB.println("3. is the SD_PIN correct? Amtel ARM should be 38");
