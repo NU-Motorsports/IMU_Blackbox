@@ -1,7 +1,5 @@
 /* Original Code by DJ Walsh
  * NUBaja IMU Blackbox
- * V 1.1.2
- * 08/22/2020
  * 
  * A large amount of this code is inspired by the Sparkfun 9DoF Razor IMU sample firmware, availible here:
  * https://learn.sparkfun.com/tutorials/9dof-razor-imu-m0-hookup-guide?_ga=2.180723815.1742731065.1594684509-2129211768.1594259654
@@ -17,7 +15,7 @@
 
 //Log Rates
 const int SERIAL_BAUD_RATE = 9600;
-int i=1;
+int logfile_number=1;
 
 
 /***********************************PIN LOCATION GLOBALS***********************************/
@@ -75,8 +73,8 @@ void setup() {
 
   bool ex = true;
   do{
-    if(SD.exists(String(i)+".txt")){
-      i++;
+    if(SD.exists("BlackboxLog_"+String(logfile_number)+".txt")){
+      logfile_number++;
     } else{
       ex = false;
     }
@@ -103,7 +101,7 @@ void loop() {
 
   int imuTime = imu.time;  //imuTime is the time in ms
 
-  File dataFile = SD.open(String(i)+".txt", FILE_WRITE);
+  File dataFile = SD.open("BlackboxLog_"+String(logfile_number)+".txt", FILE_WRITE);
 
   //Write to SD
   dataFile.print(imuTime);
