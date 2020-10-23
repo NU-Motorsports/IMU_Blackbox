@@ -23,6 +23,8 @@ int logfile_number=1;
 /***********************************PIN LOCATION GLOBALS***********************************/
 
 const int BLUE_PIN = 13;
+const int RED_PIN = 12;
+const int GREEN_PIN = 11;
 const int SD_PIN = 38;
 
 
