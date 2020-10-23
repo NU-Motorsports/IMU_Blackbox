@@ -20,12 +20,12 @@ const int SERIAL_BAUD_RATE = 9600;
 int logfile_number=1;
 
 
-/***********************************PIN LOCATION GLOBALS***********************************/
+/***********************************PIN LOCATION***********************************/
 
-const int BLUE_PIN = 13;
-const int RED_PIN = 12;
-const int GREEN_PIN = 11;
-const int SD_PIN = 38;
+#define BLUE_PIN 13
+#define RED_PIN 12
+#define GREEN_PIN 11
+#define SD_PIN 38
 
 
 
