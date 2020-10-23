@@ -22,7 +22,7 @@ int i=1;
 
 /***********************************PIN LOCATION GLOBALS***********************************/
 
-const int LED_PIN = 13;
+const int BLUE_PIN = 13;
 const int SD_PIN = 38;
 
 
