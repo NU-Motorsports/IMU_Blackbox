@@ -87,6 +87,9 @@ void setup() {
 }
 
 void loop() {
+    //LED Loop start Condition
+  digitalWrite(GREEN_PIN,HIGH);
+  digitalWrite(RED_PIN,LOW);
 
     //Update IMU values
   imu.update(UPDATE_ACCEL | UPDATE_GYRO | UPDATE_COMPASS);
