@@ -17,7 +17,7 @@
 
 //Log Rates
 const int SERIAL_BAUD_RATE = 9600;
-int i=1;
+int logfile_number=1;
 
 
 /***********************************PIN LOCATION GLOBALS***********************************/
@@ -75,8 +75,8 @@ void setup() {
 
   bool ex = true;
   do{
-    if(SD.exists(String(i)+".txt")){
-      i++;
+    if(SD.exists(String(logfile_number)+".txt")){
+      logfile_number++;
     } else{
       ex = false;
     }
@@ -103,7 +103,7 @@ void loop() {
 
   int imuTime = imu.time;  //imuTime is the time in ms
 
-  File dataFile = SD.open(String(i)+".txt", FILE_WRITE);
+  File dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
   //Write to SD
   dataFile.print(imuTime);
