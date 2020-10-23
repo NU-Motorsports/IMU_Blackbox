@@ -26,7 +26,7 @@ int logfile_number=1;
 #define RED_PIN 12
 #define GREEN_PIN 11
 #define SD_PIN 38
-
+#define BUTTON_PIN A0
 
 
 MPU9250_DMP imu;                  //Initialize MPU9250 object
