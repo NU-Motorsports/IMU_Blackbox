@@ -51,7 +51,7 @@ void setup() {
     while(true);
   }
 
-  SerialUSB.println("initialization done.");
+  SerialUSB.println("SD initialization done.");
 
   //IMU initialization
   if (imu.begin() != INV_SUCCESS){
