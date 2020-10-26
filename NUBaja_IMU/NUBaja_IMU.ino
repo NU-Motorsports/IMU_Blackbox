@@ -58,7 +58,8 @@ void setup() {
   //Serial initializaiton
   SerialUSB.begin(SERIAL_BAUD_RATE);
   while(!SerialUSB);
-  
+
+  //SD card initialization
   SerialUSB.println("initializing SD card...");
   
   if(!SD.begin(SD_PIN)){
@@ -72,6 +73,7 @@ void setup() {
 
   SerialUSB.println("SD initialization done.");
 
+
   //IMU initialization
   if (imu.begin() != INV_SUCCESS){
     SerialUSB.println("IMU not initialized");
@@ -79,6 +81,7 @@ void setup() {
       //Fails to initialize IMU, holds forever
     }
   }
+
   
   //IMU setup
   SerialUSB.println("IMU initialization success");
