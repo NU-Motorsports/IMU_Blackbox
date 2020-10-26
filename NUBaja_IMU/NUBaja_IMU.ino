@@ -68,10 +68,12 @@ void setup() {
     SerialUSB.println("2. is the wiring correct?");
     SerialUSB.println("3. is the SD_PIN correct? Amtel ARM should be 38");
     SerialUSB.println("Note: Must be restarted for any changes to take effect");
+    digitalWrite(BLUE_PIN,LOW);
     while(true);
   }
 
   SerialUSB.println("SD initialization done.");
+  digitalWrite(BLUE_PIN,HIGH);
 
 
   //IMU initialization
