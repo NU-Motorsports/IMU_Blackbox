@@ -57,7 +57,6 @@ void setup() {
 
   //Serial initializaiton
   SerialUSB.begin(SERIAL_BAUD_RATE);
-  while(!SerialUSB);
 
   //SD card initialization
   SerialUSB.println("initializing SD card...");
