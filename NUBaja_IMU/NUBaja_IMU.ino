@@ -19,6 +19,21 @@
 const int SERIAL_BAUD_RATE = 9600;
 int logfile_number=1;
 
+//IMU Variables
+  float accelX = 0; // accelX is x-axis acceleration in g's
+  float accelY = 0; // accelY is y-axis acceleration in g's
+  float accelZ = 0; // accelZ is z-axis acceleration in g's
+
+  float gyroX = 0; // gyroX is x-axis rotation in dps
+  float gyroY = 0; // gyroY is y-axis rotation in dps
+  float gyroZ = 0; // gyroZ is z-axis rotation in dps
+
+  float magX = 0; // magX is x-axis magnetic field in uT
+  float magY = 0; // magY is y-axis magnetic field in uT
+  float magZ = 0; // magZ is z-axis magnetic field in uT
+
+  int imuTime = 0;  //imuTime is the time in ms
+
 
 /***********************************PIN LOCATION***********************************/
 
@@ -91,22 +106,7 @@ void loop() {
   digitalWrite(GREEN_PIN,HIGH);
   digitalWrite(RED_PIN,LOW);
 
-    //Update IMU values
-  imu.update(UPDATE_ACCEL | UPDATE_GYRO | UPDATE_COMPASS);
-    //Calculate signed, unitized values
-  float accelX = imu.calcAccel(imu.ax); // accelX is x-axis acceleration in g's
-  float accelY = imu.calcAccel(imu.ay); // accelY is y-axis acceleration in g's
-  float accelZ = imu.calcAccel(imu.az); // accelZ is z-axis acceleration in g's
-
-  float gyroX = imu.calcGyro(imu.gx); // gyroX is x-axis rotation in dps
-  float gyroY = imu.calcGyro(imu.gy); // gyroY is y-axis rotation in dps
-  float gyroZ = imu.calcGyro(imu.gz); // gyroZ is z-axis rotation in dps
-
-  float magX = imu.calcMag(imu.mx); // magX is x-axis magnetic field in uT
-  float magY = imu.calcMag(imu.my); // magY is y-axis magnetic field in uT
-  float magZ = imu.calcMag(imu.mz); // magZ is z-axis magnetic field in uT
-
-  int imuTime = imu.time;  //imuTime is the time in ms
+  IMU_Update();
 
   File dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
@@ -139,3 +139,24 @@ void loop() {
 
 
 /***********************************FUNCTIONS***********************************/
+
+void IMU_Update() {
+
+     //Update IMU values
+  imu.update(UPDATE_ACCEL | UPDATE_GYRO | UPDATE_COMPASS);
+    //Calculate signed, unitized values
+  accelX = imu.calcAccel(imu.ax); // accelX is x-axis acceleration in g's
+  accelY = imu.calcAccel(imu.ay); // accelY is y-axis acceleration in g's
+  accelZ = imu.calcAccel(imu.az); // accelZ is z-axis acceleration in g's
+
+  gyroX = imu.calcGyro(imu.gx); // gyroX is x-axis rotation in dps
+  gyroY = imu.calcGyro(imu.gy); // gyroY is y-axis rotation in dps
+  gyroZ = imu.calcGyro(imu.gz); // gyroZ is z-axis rotation in dps
+
+  magX = imu.calcMag(imu.mx); // magX is x-axis magnetic field in uT
+  magY = imu.calcMag(imu.my); // magY is y-axis magnetic field in uT
+  magZ = imu.calcMag(imu.mz); // magZ is z-axis magnetic field in uT
+
+  imuTime = imu.time;  //imuTime is the time in ms
+  
+}
