@@ -35,6 +35,10 @@ int logfile_number=1;
   int imuTime = 0;  //imuTime is the time in ms
 
 
+//File Setup
+  File dataFile;
+
+
 /***********************************PIN LOCATION***********************************/
 
 #define BLUE_PIN 13
@@ -108,28 +112,9 @@ void loop() {
 
   IMU_Update();
 
-  File dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
+  dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
-  //Write to SD
-  dataFile.print(imuTime);
-  dataFile.print(", ");
-  dataFile.print(accelX);
-  dataFile.print(", ");
-  dataFile.print(accelY);
-  dataFile.print(", ");
-  dataFile.print(accelZ);
-  dataFile.print(", ");
-  dataFile.print(gyroX);
-  dataFile.print(", ");
-  dataFile.print(gyroY);
-  dataFile.print(", ");
-  dataFile.print(gyroZ);
-  dataFile.print(", ");
-  dataFile.print(magX);
-  dataFile.print(", ");
-  dataFile.print(magY);
-  dataFile.print(", ");
-  dataFile.println(magZ);
+  dataFile_write();
 
   dataFile.close();
   
@@ -158,5 +143,30 @@ void IMU_Update() {
   magZ = imu.calcMag(imu.mz); // magZ is z-axis magnetic field in uT
 
   imuTime = imu.time;  //imuTime is the time in ms
+  
+}
+
+void dataFile_write() {
+  
+    //Write to SD
+  dataFile.print(imuTime);
+  dataFile.print(", ");
+  dataFile.print(accelX);
+  dataFile.print(", ");
+  dataFile.print(accelY);
+  dataFile.print(", ");
+  dataFile.print(accelZ);
+  dataFile.print(", ");
+  dataFile.print(gyroX);
+  dataFile.print(", ");
+  dataFile.print(gyroY);
+  dataFile.print(", ");
+  dataFile.print(gyroZ);
+  dataFile.print(", ");
+  dataFile.print(magX);
+  dataFile.print(", ");
+  dataFile.print(magY);
+  dataFile.print(", ");
+  dataFile.println(magZ);
   
 }
