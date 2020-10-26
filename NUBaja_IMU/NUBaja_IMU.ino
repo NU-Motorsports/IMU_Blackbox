@@ -55,10 +55,10 @@ void setup() {
   //Pin modes
   pinMode(SD_PIN,OUTPUT);
 
-  //SD Card initializaiton
+  //Serial initializaiton
   SerialUSB.begin(SERIAL_BAUD_RATE);
-
   while(!SerialUSB);
+  
   SerialUSB.println("initializing SD card...");
   
   if(!SD.begin(SD_PIN)){
