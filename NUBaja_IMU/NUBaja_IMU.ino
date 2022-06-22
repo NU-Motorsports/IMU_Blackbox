@@ -45,7 +45,8 @@ int logfile_number=1;
 #define RED_PIN 12
 #define GREEN_PIN 11
 #define SD_PIN 38
-#define BUTTON_PIN A0
+#define BUTTON_PIN 9
+bool button_state = 0;
 
 
 MPU9250_DMP imu;                  //Initialize MPU9250 object
@@ -54,30 +55,24 @@ void setup() {
 
   //Pin modes
   pinMode(SD_PIN,OUTPUT);
-
-  //Serial initializaiton
-  SerialUSB.begin(SERIAL_BAUD_RATE);
-
-  //SD card initialization
-  SerialUSB.println("initializing SD card...");
+  pinMode(BLUE_PIN,OUTPUT);
+  pinMode(RED_PIN,OUTPUT);
+  pinMode(GREEN_PIN,OUTPUT);
+  pinMode(BUTTON_PIN,INPUT);
   
   if(!SD.begin(SD_PIN)){
-    SerialUSB.println("SD initialization failed. things to check:");
-    SerialUSB.println("1. is a card inserted? Try removing and inserting again");
-    SerialUSB.println("2. is the wiring correct?");
-    SerialUSB.println("3. is the SD_PIN correct? Amtel ARM should be 38");
-    SerialUSB.println("Note: Must be restarted for any changes to take effect");
     digitalWrite(BLUE_PIN,LOW);
     while(true);
   }
 
-  SerialUSB.println("SD initialization done.");
   digitalWrite(BLUE_PIN,HIGH);
-
 
   //IMU initialization
   if (imu.begin() != INV_SUCCESS){
-    SerialUSB.println("IMU not initialized");
+    digitalWrite(GREEN_PIN,HIGH);
+    delay(300);
+    digitalWrite(GREEN_PIN,LOW);
+    delay(300);
     while(1){
       //Fails to initialize IMU, holds forever
     }
@@ -85,7 +80,7 @@ void setup() {
 
   
   //IMU setup
-  SerialUSB.println("IMU initialization success");
+  digitalWrite(GREEN_PIN,HIGH);
     //Enable all sensors
   imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);
     //Full scale range
@@ -93,12 +88,12 @@ void setup() {
   imu.setAccelFSR(2);                 //+/- 2, 4, 8, 16 g
     //Frequency Setup
   imu.setLPF(10);                     //188, 98, 42, 20, 10, 5 Hz
-  imu.setSampleRate(10);              //4 thru 1000 Hz
+  imu.setSampleRate(50);              //4 thru 1000 Hz
   imu.setCompassSampleRate(10);       //1 thru 100 Hz
 
-  //File directory finder
 
-  bool ex = true;
+  //File directory finder
+  bool ex = true;         //File exists variable
   do{
     if(SD.exists(String(logfile_number)+".txt")){
       logfile_number++;
@@ -109,21 +104,27 @@ void setup() {
     
 }
 
+
 void loop() {
     //LED Loop start Condition
-  digitalWrite(GREEN_PIN,HIGH);
   digitalWrite(RED_PIN,LOW);
+  button_state = digitalRead(BUTTON_PIN);
 
-  IMU_Update();
+  if(button_state == HIGH){
+    digitalWrite(RED_PIN,HIGH);
+    
+    IMU_Update();
 
-  dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
+    dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
-  dataFile_write();
+    dataFile_write();
 
-  dataFile.close();
-  
+    dataFile.close();
+
+  }
   
 }
+
 
 
 
@@ -149,6 +150,7 @@ void IMU_Update() {
   imuTime = imu.time;  //imuTime is the time in ms
   
 }
+
 
 void dataFile_write() {
   
