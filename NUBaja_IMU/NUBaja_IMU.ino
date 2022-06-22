@@ -107,12 +107,13 @@ void setup() {
 
 void loop() {
     //LED Loop start Condition
-  digitalWrite(RED_PIN,LOW);
+  
   button_state = digitalRead(BUTTON_PIN);
 
   if(button_state == HIGH){
     digitalWrite(RED_PIN,HIGH);
-    
+    delay(500);
+    do  {
     IMU_Update();
 
     dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
@@ -121,8 +122,13 @@ void loop() {
 
     dataFile.close();
 
-  }
-  
+    button_state = digitalRead(BUTTON_PIN);
+
+  } while(button_state==LOW);
+
+  delay(2000);
+  digitalWrite(RED_PIN,LOW);
+}
 }
 
 
