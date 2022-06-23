@@ -13,6 +13,7 @@
 #include <SPI.h>
 
 
+
 /***********************************LOGGING CONTROL GLOBALS***********************************/
 
 //Log Rates
@@ -34,6 +35,12 @@ int logfile_number=1;
 
   int imuTime = 0;  //imuTime is the time in ms
 
+//Pot Variables
+  float frontl = 0;
+  float frontr = 0;
+  float rearl = 0;
+  float rearr = 0;
+
 
 //File Setup
   File dataFile;
@@ -46,12 +53,21 @@ int logfile_number=1;
 #define GREEN_PIN 11
 #define SD_PIN 38
 #define BUTTON_PIN 9
+#define FL A3
+#define FR A2
+#define RR A1
+#define RL A0
+
+
 bool button_state = 0;
+
 
 
 MPU9250_DMP imu;                  //Initialize MPU9250 object
 
 void setup() {
+
+  SerialUSB.begin(9600);
 
   //Pin modes
   pinMode(SD_PIN,OUTPUT);
@@ -101,7 +117,7 @@ void setup() {
       ex = false;
     }
   } while(ex==true);
-    
+ SerialUSB.println("Setup Complete");   
 }
 
 
@@ -115,6 +131,7 @@ void loop() {
     delay(500);
     do  {
     IMU_Update();
+    Pot_Update();
 
     dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
@@ -157,6 +174,14 @@ void IMU_Update() {
   
 }
 
+void Pot_Update() {
+
+  //Update IMU Values
+  frontl = (analogRead(FL))*0.196;
+  frontr = (analogRead(FR))*0.196;
+  rearl = (analogRead(RL))*0.147;
+  rearr = (analogRead(RR))*0.147;
+}
 
 void dataFile_write() {
   
@@ -179,6 +204,14 @@ void dataFile_write() {
   dataFile.print(", ");
   dataFile.print(magY);
   dataFile.print(", ");
-  dataFile.println(magZ);
-  
+  dataFile.print(magZ);
+  dataFile.print(", ");
+  dataFile.print(frontl);
+  dataFile.print(", ");
+  dataFile.print(frontr);
+  dataFile.print(", ");
+  dataFile.print(rearl);
+  dataFile.print(", ");
+  dataFile.println(rearr);
+
 }
