@@ -100,8 +100,8 @@ void setup() {
     //Enable all sensors
   imu.setSensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS);
     //Full scale range
-  imu.setGyroFSR(500);                //+/- 250, 500, 1000, 2000 dps
-  imu.setAccelFSR(2);                 //+/- 2, 4, 8, 16 g
+  imu.setGyroFSR(1000);                //+/- 250, 500, 1000, 2000 dps
+  imu.setAccelFSR(8);                 //+/- 2, 4, 8, 16 g
     //Frequency Setup
   imu.setLPF(10);                     //188, 98, 42, 20, 10, 5 Hz
   imu.setSampleRate(50);              //4 thru 1000 Hz
@@ -143,8 +143,8 @@ void loop() {
 
   } while(button_state==LOW);
 
-  delay(2000);
   digitalWrite(RED_PIN,LOW);
+  delay(2000);
 }
 }
 
@@ -214,4 +214,12 @@ void dataFile_write() {
   dataFile.print(", ");
   dataFile.println(rearr);
 
+}
+
+void serial_write() {
+  SerialUSB.print(gyroX);
+  SerialUSB.print(", ");
+  SerialUSB.print(gyroY);
+  SerialUSB.print(", ");
+  SerialUSB.println(gyroZ);
 }
