@@ -17,7 +17,7 @@
 /***********************************LOGGING CONTROL GLOBALS***********************************/
 
 //Log Rates
-const int SERIAL_BAUD_RATE = 9600;
+const int SerialUSB_BAUD_RATE = 9600;
 int logfile_number=1;
 
 //IMU Variables
@@ -60,6 +60,7 @@ int logfile_number=1;
 
 
 bool button_state = 0;
+
 
 
 
@@ -132,12 +133,15 @@ void loop() {
     do  {
     IMU_Update();
     Pot_Update();
+    SerialUSB_write();
 
     dataFile = SD.open(String(logfile_number)+".txt", FILE_WRITE);
 
     dataFile_write();
 
     dataFile.close();
+
+    
 
     button_state = digitalRead(BUTTON_PIN);
 
@@ -216,10 +220,32 @@ void dataFile_write() {
 
 }
 
-void serial_write() {
+void SerialUSB_write() {
+  SerialUSB.print(imuTime);
+  SerialUSB.print(", ");
+  SerialUSB.print(accelX);
+  SerialUSB.print(", ");
+  SerialUSB.print(accelY);
+  SerialUSB.print(", ");
+  SerialUSB.print(accelZ);
+  SerialUSB.print(", ");
   SerialUSB.print(gyroX);
   SerialUSB.print(", ");
   SerialUSB.print(gyroY);
   SerialUSB.print(", ");
-  SerialUSB.println(gyroZ);
+  SerialUSB.print(gyroZ);
+  SerialUSB.print(", ");
+  SerialUSB.print(magX);
+  SerialUSB.print(", ");
+  SerialUSB.print(magY);
+  SerialUSB.print(", ");
+  SerialUSB.print(magZ);
+  SerialUSB.print(", ");
+  SerialUSB.print(frontl);
+  SerialUSB.print(", ");
+  SerialUSB.print(frontr);
+  SerialUSB.print(", ");
+  SerialUSB.print(rearl);
+  SerialUSB.print(", ");
+  SerialUSB.println(rearr);
 }
